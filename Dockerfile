@@ -1,19 +1,6 @@
 ARG GO_VERSION=${GO_VERSION:-"1.24"}
 ARG ALPINE_VERSION=${ALPINE_VERSION:-"3.21"}
 
-FROM alpine:${ALPINE_VERSION} AS base
-ARG POSTGRES_CLIENT_VERSION
-ARG MINIO_CLIENT_VERSION
-
-RUN apk add --update --no-cache \
-    	postgresql17-client \
-			ca-certificates \
-			curl \
-		&& curl -Lo /usr/bin/mc https://dl.min.io/client/mc/release/linux-amd64/mc \
-		&& chmod +x /usr/bin/mc \
-    && rm -rf /var/log/* \
-    && rm -rf /var/cache/apk/*
-
 FROM golang:${GO_VERSION}-alpine${ALPINE_VERSION} AS builder
 WORKDIR /app
 
@@ -28,7 +15,7 @@ COPY . .
 # Build the Go app
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o pg2minio ./main.go
 
-FROM base
+FROM postgres:18-alpine
 
 WORKDIR /app
 

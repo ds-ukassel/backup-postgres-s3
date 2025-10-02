@@ -2,13 +2,7 @@
 Backup Postgresql to Minio
 
 # Supported Versions
-* 11
-* 12
-* 13
-* 14
-* 15
-* 16
-* 17
+* 11 - 18
 
 #### `cp .env.example .env`
 ```
@@ -41,6 +35,7 @@ services:
 - `MINIO_SERVER` - Your Minio server
 
 - `POSTGRES_HOST` - Hostname of the PostgreSQL database to backup, alternatively this container can be linked to the container with the name `postgres`.
+- `POSTGRES_DATABASE` - Name of the PostgreSQL database to backup.
 
 ### Optional Environment Variables
 
@@ -49,7 +44,6 @@ services:
 - `POSTGRES_PASSWORD` - Password for the PostgreSQL user, if you are using a database on the same machine this isn't usually needed.
 - `POSTGRES_PORT` - Port of the PostgreSQL database, uses the default `5432`.
 - `POSTGRES_EXTRA_OPTS` - Extra arguments to pass to the `pg_dump` command.
-- `POSTGRES_DATABASE` - Name of the PostgreSQL database to backup.
 - `POSTGRES_USER` - PostgreSQL user, with priviledges to dump the database.
 - `POSTGRES_PRERUN` - Check connection before executing.
 
