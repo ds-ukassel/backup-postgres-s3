@@ -16,6 +16,9 @@ COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o pg2minio ./main.go
 
 FROM postgres:18-alpine
+RUN apk add --update --no-cache ca-certificates curl \
+	&& curl -Lo /usr/bin/mc https://dl.min.io/client/mc/release/linux-amd64/mc \
+    && chmod +x /usr/bin/mc
 
 WORKDIR /app
 
