@@ -30,8 +30,8 @@ checksum:
 
 dockers:
   - image_templates:
-    - "anhnmt/backup-pg2minio:latest"
-    - "anhnmt/backup-pg2minio:{{ .Tag }}"
+    - "registry.uni-kassel.dev/backup/postgres-s3:latest"
+    - "registry.uni-kassel.dev/backup/postgres-s3:{{ .Tag }}"
     dockerfile: ./Dockerfile
     goos: linux
     goarch: amd64

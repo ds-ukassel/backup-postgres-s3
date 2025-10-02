@@ -1,4 +1,4 @@
-module github.com/anhnmt/backup-pg2minio
+module github.com/ds-ukassel/backup-postgres-s3
 
 go 1.24
 

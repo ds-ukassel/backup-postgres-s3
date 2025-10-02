@@ -24,7 +24,7 @@ version: '3'
 services:
   pg2minio:
     container_name: pg2minio
-    image: anhnmt/backup-pg2minio:latest
+    image: registry.uni-kassel.dev/backup/postgres-s3:latest
     build:
       context: .
       dockerfile: ./Dockerfile

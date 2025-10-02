@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/anhnmt/backup-pg2minio/cmd"
+	"github.com/ds-ukassel/backup-postgres-s3/cmd"
 )
 
 func main() {
