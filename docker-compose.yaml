@@ -1,0 +1,8 @@
+services:
+  postgresql-s3:
+    image: registry.uni-kassel.dev/backup/postgresql-s3
+    build:
+      context: .
+      platforms:
+        - linux/amd64
+        - linux/arm64
