@@ -6,7 +6,7 @@ set -e
 : "${POSTGRES_USER:?Missing POSTGRES_USER}"
 : "${POSTGRES_PASSWORD:?Missing POSTGRES_PASSWORD}"
 : "${POSTGRES_DATABASE:?Missing POSTGRES_DATABASE}"
-: "${POSTGRES_TABLES:?Missing POSTGRES_TABLES (semicolon-separated list of tables)}"
+: "${POSTGRES_TABLES:?Missing POSTGRES_TABLES (space-separated list of tables)}"
 : "${MINIO_ENDPOINT:?Missing MINIO_ENDPOINT}"
 : "${MINIO_ACCESS_KEY:?Missing MINIO_ACCESS_KEY}"
 : "${MINIO_SECRET_KEY:?Missing MINIO_SECRET_KEY}"
@@ -37,10 +37,7 @@ echo "[postgres-backup] Starting backup at $NOW..."
 $MINIO_COMMAND alias set storage "$MINIO_ENDPOINT" "$MINIO_ACCESS_KEY" "$MINIO_SECRET_KEY"
 $MINIO_COMMAND mb -p "storage/$MINIO_BUCKET"
 
-# Split POSTGRES_TABLES into separate tables
-TABLE_LIST=$(echo "$POSTGRES_TABLES" | tr ';' '\n' | xargs -n 1 echo)
-
-for TABLE in $TABLE_LIST; do
+for TABLE in $POSTGRES_TABLES; do
   [ -z "$TABLE" ] && continue # Skip empty table names
 
   BACKUP_FILE="${POSTGRES_DATABASE}_${TABLE}_${NOW}.sql.gz"
