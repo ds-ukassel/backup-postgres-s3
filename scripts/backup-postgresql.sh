@@ -33,9 +33,6 @@ trap 'send_webhook_error' ERR
 
 export PGPASSWORD="$POSTGRES_PASSWORD"
 
-# https://www.postgresql.org/docs/current/app-pgdump.html
-PG_COMMAND="pg_dump --host=$POSTGRES_HOST --port=$POSTGRES_PORT --username=$POSTGRES_USER --no-owner --no-privileges"
-
 echo "[postgres-backup] Starting backup at $NOW..."
 $MINIO_COMMAND alias set storage "$MINIO_ENDPOINT" "$MINIO_ACCESS_KEY" "$MINIO_SECRET_KEY"
 $MINIO_COMMAND mb -p "storage/$MINIO_BUCKET"
@@ -50,9 +47,13 @@ for TABLE in $TABLE_LIST; do
 
   echo "[postgres-backup] Dumping '$POSTGRES_DATABASE.$TABLE' and uploading..."
 
-  $PG_COMMAND --table="$TABLE" "$POSTGRES_DATABASE" \
-    | gzip -c \
-    | $MINIO_COMMAND pipe "storage/$MINIO_BUCKET/$MINIO_PATH/$BACKUP_FILE"
+  # https://www.postgresql.org/docs/current/app-pgdump.html
+  pg_dump \
+    --host="$POSTGRES_HOST" --port="$POSTGRES_PORT" --username="$POSTGRES_USER" \
+    --no-owner --no-privileges \
+    --table="$TABLE" "$POSTGRES_DATABASE" \
+  | gzip -c \
+  | $MINIO_COMMAND pipe "storage/$MINIO_BUCKET/$MINIO_PATH/$BACKUP_FILE"
 done
 
 if [ -n "$RETENTION_PERIOD" ]; then
