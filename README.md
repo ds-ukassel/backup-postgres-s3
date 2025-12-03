@@ -9,13 +9,13 @@ POSTGRES_HOST='localhost'
 POSTGRES_USER='user'
 POSTGRES_PASSWORD='password'
 POSTGRES_DATABASE='mydb'
-POSTGRES_TABLES='mydb.table1 mydb.table2'
 MINIO_ENDPOINT='http://localhost:9000'
 MINIO_ACCESS_KEY='minioadmin'
 MINIO_SECRET_KEY='minioadmin'
 
 # Optional variables
 POSTGRES_PORT=5432
+POSTGRES_TABLES='table1 table2'
 NO_PRIVILEGES_FLAG=true
 NO_OWNER_FLAG=true
 MINIO_BUCKET='postgres-backups'
@@ -33,6 +33,7 @@ It will also remove backups older than the specified number of days.
 To disable this feature, leave `RETENTION_PERIOD` empty.
 
 `POSTGRES_TABLES` can be used to specify the tables to back up, separated by spaces.
+If no tables are specified, the entire database will be backed up.
 
 Backups will be stored under the specified `MINIO_PATH` in the bucket `MINIO_BUCKET`, with filenames in the format `<database>_<table>_YYYYMMDD_HHMMSS.sql.gz`.
 
