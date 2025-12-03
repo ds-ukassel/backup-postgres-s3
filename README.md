@@ -16,6 +16,8 @@ MINIO_SECRET_KEY='minioadmin'
 
 # Optional variables
 POSTGRES_PORT=5432
+NO_PRIVILEGES_FLAG=true
+NO_OWNER_FLAG=true
 MINIO_BUCKET='postgres-backups'
 MINIO_PATH='postgres-backups'
 RETENTION_PERIOD='7d'
@@ -35,3 +37,6 @@ To disable this feature, leave `RETENTION_PERIOD` empty.
 Backups will be stored under the specified `MINIO_PATH` in the bucket `MINIO_BUCKET`, with filenames in the format `<database>_<table>_YYYYMMDD_HHMMSS.sql.gz`.
 
 When setting `DISCORD_WEBHOOK_URL`, a notification will be sent to the specified Discord webhook when the backup fails.
+
+Setting `NO_PRIVILEGES_FLAG` and `NO_OWNER_FLAG` to true will add the `--no-privileges` and `--no-owner` flags to the pg_dump command.
+Set them to false to include privileges and ownership information in the backup.

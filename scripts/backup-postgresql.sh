@@ -18,6 +18,14 @@ MINIO_PATH="${MINIO_PATH-postgres-backups}"
 RETENTION_PERIOD="${RETENTION_PERIOD:-}"
 MINIO_COMMAND="${MINIO_COMMAND:-mc}"
 DISCORD_WEBHOOK_URL="${DISCORD_WEBHOOK_URL:-}"
+NO_OWNER_FLAG="${NO_OWNER_FLAG:-true}"
+NO_PRIVILEGES_FLAG="${NO_PRIVILEGES_FLAG:-true}"
+
+
+PGDUMP_NO_OWNER=""
+PGDUMP_NO_PRIVILEGES=""
+[ "$NO_OWNER_FLAG" = "true" ] && PGDUMP_NO_OWNER="--no-owner"
+[ "$NO_PRIVILEGES_FLAG" = "true" ] && PGDUMP_NO_PRIVILEGES="--no-privileges"
 
 NOW=$(date +%Y%m%d_%H%M%S)
 
@@ -47,7 +55,7 @@ for TABLE in $POSTGRES_TABLES; do
   # https://www.postgresql.org/docs/current/app-pgdump.html
   pg_dump \
     --host="$POSTGRES_HOST" --port="$POSTGRES_PORT" --username="$POSTGRES_USER" \
-    --no-owner --no-privileges \
+    $PGDUMP_NO_OWNER $PGDUMP_NO_PRIVILEGES \
     --table="$TABLE" "$POSTGRES_DATABASE" \
   | gzip -c \
   | $MINIO_COMMAND pipe "storage/$MINIO_BUCKET/$MINIO_PATH/$BACKUP_FILE"
