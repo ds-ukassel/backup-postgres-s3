@@ -46,7 +46,7 @@ $MINIO_COMMAND alias set storage "$MINIO_ENDPOINT" "$MINIO_ACCESS_KEY" "$MINIO_S
 $MINIO_COMMAND mb -p "storage/$MINIO_BUCKET"
 
 if [ -z "$POSTGRES_TABLES" ]; then
-  BACKUP_FILE="${POSTGRES_DATABASE}_full_${NOW}.sql.gz"
+  BACKUP_FILE="${POSTGRES_DATABASE}_${NOW}.sql.gz"
 
   echo "[postgres-backup] Dumping full database '$POSTGRES_DATABASE' and uploading..."
 
