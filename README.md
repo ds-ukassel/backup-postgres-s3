@@ -1,4 +1,4 @@
-# backup-postgresql-s3
+# backup-postgres-s3
 Simple script for backing up a PostgreSQL database to an S3 (minio) bucket.
 
 # Configuration

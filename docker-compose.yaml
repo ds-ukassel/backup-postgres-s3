@@ -1,6 +1,6 @@
 services:
-  postgresql-s3:
-    image: registry.uni-kassel.dev/backup/postgresql-s3
+  postgres-s3:
+    image: registry.uni-kassel.dev/backup/postgres-s3
     build:
       context: .
       platforms:

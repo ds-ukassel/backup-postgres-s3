@@ -2,8 +2,8 @@ FROM alpine:latest
 
 RUN --mount=type=cache,target=/etc/apk/cache apk add --update-cache bash curl gzip postgresql-client tar minio-client
 
-COPY scripts/backup-postgresql.sh /usr/local/bin/backup-postgresql.sh
-RUN chmod +x /usr/local/bin/backup-postgresql.sh
+COPY scripts/backup-postgres.sh /usr/local/bin/backup-postgres.sh
+RUN chmod +x /usr/local/bin/backup-postgres.sh
 
 ENV MINIO_COMMAND="mcli"
-CMD ["/usr/local/bin/backup-postgresql.sh"]
+CMD ["/usr/local/bin/backup-postgres.sh"]
